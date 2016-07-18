@@ -1,10 +1,83 @@
-<!DOCTYPE html>
+<!DOCTYPE html lang="en">
   <head>
     <title>
-      
+      Hangman
     </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   </head>
   <body>
-    
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1 id="mainHeader">Interstelar Hangman</h1>
+      </div>
+    </div>
+    <div class="container">
+
+      <div class="col-lg-6"> <!-- Begin Row -->
+        <div class="col-lg-12">
+          <h3> Remember, there's no gravity in space</h3>
+          <p> Type a letter to begin...</p>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="col-lg-12">
+          <h3>Results</h3>
+          <h2 id="output" class="display-4"></h2>
+          <p>Letters used: <span id="letters"></span></p>
+          <p> Guesses remaining:  <span id="numeros"></span></p>
+          <p> Wins: <span id="wins"></span> </p>
+          <p> Losses: <span id="losses"></span> </p>
+        </div>
+      </div> <!-- End Row -->
+
+      <div class="col-md-6"></div>
+      <div id="guessForm" class="col-md-6">
+        <form class="form-inline">
+          <div class="form-group">
+            <label id="wordGuess">Know the word?</label>
+            <input type="email" class="form-control" id="exampleInputEmail2" placeholder="word">
+          </div>
+          <button type="submit" class="btn btn-default">I'm feeling lucky!</button>
+        </form>
+      </div>
+
+      
+        <div class="col-lg-12" id="successBanner"> <!-- Begin Row -->
+          <div class="alert alert-success" role="alert">
+
+            <strong>Congratulations!</strong>
+            You guessed the word. Play again? &nbsp; &nbsp;
+
+             <button class="btn btn-success" onclick="playAgain();"> Yes</button>
+             &nbsp;
+            <button class="btn btn-danger" onclick="hideBanner('successBanner');"> No </button>
+          </div>
+        </div> <!-- End Row -->
+      
+
+
+      <div id="failBanner">
+        <div class="col-lg-12"> <!-- Begin Row -->
+          <div class="alert alert-warning" role="alert">
+
+            <strong>Bummer!</strong>
+            You loose. Play again? &nbsp; &nbsp;
+
+            <button class="btn btn-success" onclick="playAgain();"> Yes</button>
+            &nbsp;
+            <button class="btn btn-danger" onclick="hideBanner('failBanner');"> No </button>
+            
+          </div>
+        </div> <!-- End Row -->
+      </div> <!-- End Banner -->
+
+
+
+    </div>
+
+    <script type="text/javascript" src="assets/javascript/game.js"></script>
   </body>
 </html>
