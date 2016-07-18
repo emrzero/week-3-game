@@ -20,6 +20,8 @@
         <div class="col-lg-12">
           <h3> Remember, there's no gravity in space</h3>
           <p> Type a letter to begin...</p>
+          <span class="text-xs-right" > Music credit: <a href="http://www.bensound.com">bensound.com</a></span>
+
         </div>
       </div>
       <div class="col-lg-6">
@@ -51,9 +53,9 @@
             <strong>Congratulations!</strong>
             You guessed the word. Play again? &nbsp; &nbsp;
 
-             <button class="btn btn-success" onclick="playAgain();"> Yes</button>
+             <button class="btn btn-success" onclick="gameActions.playAgain();"> Yes</button>
              &nbsp;
-            <button class="btn btn-danger" onclick="hideBanner('successBanner');"> No </button>
+            <button class="btn btn-danger" onclick="gameActions.hideBanner('successBanner');"> No </button>
           </div>
         </div> <!-- End Row -->
       
@@ -66,9 +68,9 @@
             <strong>Bummer!</strong>
             You loose. Play again? &nbsp; &nbsp;
 
-            <button class="btn btn-success" onclick="playAgain();"> Yes</button>
+            <button class="btn btn-success" onclick="gameActions.playAgain();"> Yes</button>
             &nbsp;
-            <button class="btn btn-danger" onclick="hideBanner('failBanner');"> No </button>
+            <button class="btn btn-danger" onclick="gameActions.hideBanner('failBanner');"> No </button>
             
           </div>
         </div> <!-- End Row -->

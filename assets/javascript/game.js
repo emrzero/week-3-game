@@ -3,7 +3,6 @@
 //July 2016
 
 // Create an array that lists out all of the options
-// var options = ['r','p','s'];
 var options = [
   'mercury',
   'venus',
@@ -70,44 +69,83 @@ var computerGuess = "";
 var arrDashes = [];
 var strOutput = "";
 
-function setupGame () {
-  numGuesses = 0;
-  arrUsedLetters = [];
-  bolGameDone = false;
-  numCountdown = 8;
-  //Computer selects word
-  computerGuess = options[Math.floor(Math.random()*options.length)];
-  // console.log(computerGuess);
-  // console.log(computerGuess.length);
+// var gameTrackers = {
+//   numGuesses : 0,
+//   arrUsedLetters : [],
+//   bolGameDone : false,
+//   numCountdown : 9,
+//   numLosses : 0,
+//   numWins: 0,
+//   computerGuess: "",
+//   arrDashes: [],
+//   strOutput: ""
 
-  //Create masked word and output to DOM
-  arrDashes = [];
+// };
 
-  for (var i = 0; i < computerGuess.length; i++) {
-    arrDashes.push("-");
-  }
 
-  strOutput = "";
-  redoStrHTML();
-  document.getElementById("output").innerHTML = (strOutput);
-  document.getElementById("numeros").innerHTML = numCountdown;
-  document.getElementById("wins").innerHTML = numWins;
-  document.getElementById("losses").innerHTML = numLosses;
+var music = new Audio('assets/audio/jazzyfrenchy.mp3');
+var sadMusic = new Audio('assets/audio/sadday.mp3')
+
+////// Functions ///////
+
+var gameActions = {
+
+  setupGame: function() {
+                numGuesses = 0;
+                arrUsedLetters = [];
+                bolGameDone = false;
+                numCountdown = 8;
+                //Computer selects word
+                computerGuess = options[Math.floor(Math.random()*options.length)];
+
+                //Create masked word and output to DOM
+                arrDashes = [];
+
+                for (var i = 0; i < computerGuess.length; i++) {
+                  arrDashes.push("-");
+                }
+
+                strOutput = "";
+                gameActions.redoStrHTML();
+
+                document.getElementById("output").innerHTML = (strOutput);
+                document.getElementById("numeros").innerHTML = numCountdown;
+                document.getElementById("wins").innerHTML = numWins;
+                document.getElementById("losses").innerHTML = numLosses;
+              },
+
+
+  redoStrHTML: function () {
+                  strOutput = "";
+                  for (var i = 0; i < arrDashes.length; i++){
+                    strOutput += arrDashes[i];
+                  }
+                },
+
+
+  hideBanner: function (el) {
+                  document.getElementById(el).style.display = "none";
+                },
+
+
+  playAgain: function () {
+                gameActions.setupGame();
+
+                document.getElementById("letters").innerHTML = arrUsedLetters;
+                document.getElementById("numeros").innerHTML = numCountdown;
+
+                gameActions.hideBanner("successBanner");
+                gameActions.hideBanner("failBanner");
+
+                music.pause();
+                sadMusic.pause();
+              }
+
 }
 
-function redoStrHTML () {
-  strOutput = "";
-  for (var i = 0; i < arrDashes.length; i++){
-    strOutput += arrDashes[i];
-  }
-}
+//Initiate game
+gameActions.setupGame();
 
-setupGame();
-
-
-
-
-//document.getElementById("output").innerHTML = (strOutput);
 
 ////////// Captures Key Clicks ////////////
 document.onkeyup = function(event) {
@@ -141,18 +179,16 @@ document.onkeyup = function(event) {
               arrDashes[position[i]] = userGuess;
             }
 
-            redoStrHTML();
+            gameActions.redoStrHTML();
              
             console.log("Your guess is in position " + position);
             document.getElementById("output").innerHTML = strOutput;
         } else {
           numCountdown -= 1;
-          console.log("You have " + numCountdown + " guesses remaining");
+          
         }
       }
-      
-      // console.log("Number of guesses " + numGuesses);
-      // console.log("Letters used: " + arrUsedLetters);
+
     }
 
     ////Print letters to the DOM
@@ -161,14 +197,15 @@ document.onkeyup = function(event) {
     
 
     if (arrDashes.indexOf("-") == -1 && bolGameDone == false) {
-      // alert("Congratulations! You guessed the word. Refresh the page to play again");
       bolGameDone = true;
       numWins += 1;
       document.getElementById("successBanner").style.display = "block";
+      music.play();
      } else if (numCountdown == 0 && bolGameDone == false) {
         bolGameDone = true;
         numLosses += 1;
         document.getElementById("failBanner").style.display = "block";
+        sadMusic.play();
      }
 
       document.getElementById("wins").innerHTML = numWins;
@@ -177,15 +214,4 @@ document.onkeyup = function(event) {
 
 }/////END Capture Key Clicks
 
-function hideBanner(el) {
-  document.getElementById(el).style.display = "none";
-}
 
-function playAgain() {
-  setupGame();
-  console.log(strOutput);
-  document.getElementById("letters").innerHTML = arrUsedLetters;
-  document.getElementById("numeros").innerHTML = numCountdown;
-  hideBanner("successBanner");
-  hideBanner("failBanner");
-}
