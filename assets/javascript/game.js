@@ -4,59 +4,83 @@
 
 // Create an array that lists out all of the options
 var options = [
-  'mercury',
-  'venus',
-  'earth',
-  'mars',
-  'jupiter',
-  'saturn',
-  'uranus',
-  'neptune'
-  ];
+  "gsw",
+  "sa",
+  "okc",
+  "lac",
+  "por",
+  "dal",
+  "mem",
+  "hou"
+]
 
-var dwarfPlanets = [ 
-  //dwarf planets
-  'ceres',
-  'pluto',
-  'haumae',
-  'makemake',
-  'eris'
-  ];
 
-var moons = [
-  //moons
-  'phobos',
-  'deimos',
-  'io',
-  'europa',
-  'ganymede',
-  'callisto',
-  'titan',
-  'triton',
-  'charon',
-  'nix',
-  'hydra',
-  'kerberos',
-  'styx'
-  ];
+var nbawc = {
+  "gsw" : {
+    name : "Golden State Warriors",
+    conference: "western",
+    w : 73,
+    l : 9,
+    song: "e-40-choices.mp3"
+  },
 
-var constellations =[
-  'andromeda',
-  'aries',
-  'cancer',
-  'cassiopeia',
-  'capricornus',
-  'gemini',
-  'leo',
-  'libra',
-  'pisces',
-  'pheonix',
-  'perseus',
-  'orion',
-  'pleiades',
-  'hercules',
-  'hydra'
-];
+  "sa" : {
+    name : "San Antonio Spurs",
+    conference : "western",
+    w : 67,
+    l : 15,
+    song: "turn-down-for-what.mp3"
+  },
+
+  "okc" : {
+    name : "Oklahoma City Thunder",
+    conference: "western",
+    w : 55,
+    l : 27,
+    song: "seven-nation-army.mp3"
+  },
+
+  "lac" : {
+    name : "Los Angeles Clippers",
+    conference: "western",
+    w: 53,
+    l: 29,
+    song: "lob-city.mp3"
+  },
+
+  "por" : {
+    name: "Portland Trail Blazers",
+    conference: "western",
+    w: 44,
+    l: 38,
+    song: "we-are-rip-city.mp3"
+  },
+
+  "dal" : {
+    name: "Dallas Mavericks",
+    conference: "western",
+    w: 42,
+    l: 40,
+    song: "jgonzo-dallas-mavs.mp3"
+  },
+
+  "mem" : {
+    name: "Memphis Grizzlies",
+    conference: "western",
+    w: 42,
+    l: 40,
+    song: "we-dont-bluff-mg.mp3"
+  },
+
+  "hou" : {
+    name: "Houston Rockets",
+    conference: "western",
+    w: 41,
+    l: 41,
+    song: "king-houston-rockets.mp3"
+  }
+};
+  
 
 ///Counters and Trackers
 var numGuesses = 0;
@@ -65,9 +89,13 @@ var bolGameDone = false;
 var numCountdown = 9;
 var numWins = 0;
 var numLosses = 0;
+var team = "";
 var computerGuess = "";
 var arrDashes = [];
 var strOutput = "";
+var music;
+var pathToMusic = "assets/audio/";
+var sadMusic = new Audio('assets/audio/sadday.mp3');
 
 // var gameTrackers = {
 //   numGuesses : 0,
@@ -83,8 +111,8 @@ var strOutput = "";
 // };
 
 
-var music = new Audio('assets/audio/jazzyfrenchy.mp3');
-var sadMusic = new Audio('assets/audio/sadday.mp3')
+// var music = new Audio('assets/audio/jazzyfrenchy.mp3');
+
 
 ////// Functions ///////
 
@@ -96,13 +124,18 @@ var gameActions = {
                 bolGameDone = false;
                 numCountdown = 8;
                 //Computer selects word
-                computerGuess = options[Math.floor(Math.random()*options.length)];
+                team = options[Math.floor(Math.random()*options.length)];
+                computerGuess = nbawc[team].name.toLowerCase();
 
                 //Create masked word and output to DOM
                 arrDashes = [];
 
                 for (var i = 0; i < computerGuess.length; i++) {
-                  arrDashes.push("-");
+                  if (computerGuess[i] == " "){
+                    arrDashes.push(" ");
+                  } else {
+                    arrDashes.push("-");
+                  }
                 }
 
                 strOutput = "";
@@ -125,6 +158,8 @@ var gameActions = {
 
   hideBanner: function (el) {
                   document.getElementById(el).style.display = "none";
+                  music.pause();
+                  sadMusic.pause();
                 },
 
 
@@ -200,12 +235,14 @@ document.onkeyup = function(event) {
       bolGameDone = true;
       numWins += 1;
       document.getElementById("successBanner").style.display = "block";
+      music = new Audio(pathToMusic + nbawc[team].song);
       music.play();
      } else if (numCountdown == 0 && bolGameDone == false) {
         bolGameDone = true;
         numLosses += 1;
-        document.getElementById("failBanner").style.display = "block";
+        //document.getElementById("failBanner").style.display = "block";
         sadMusic.play();
+        document.getElementById("output").innerHTML = computerGuess
      }
 
       document.getElementById("wins").innerHTML = numWins;
